@@ -26,7 +26,7 @@ import re
 import random
 import pickle
 from utils import *
-import argsparse
+import argparse
 
 
 
@@ -250,6 +250,7 @@ def consensus_tree(tree_list, d, allow_steiner=0):
     _, cp_dict, cp_branch,_ = get_head_subtree(structure, combined_directed_partitions, tuple(sorted(list(total_set))), {}, {})  #O(k)
     return cp_dict, cp_branch
 
+
 def get_args(argv):
     parser = argparse.ArgumentParser(prog='contreedp.py',)
     parser.add_argument('-t', '--tree_list', type=str, dest='tree_list')
@@ -263,13 +264,15 @@ def main(argv):
     with open(args['tree_list'], 'rb') as f:
         print('Loading input trees...')
         tree_list = pickle.load(f)
-    print('Running ConTreeDP...')
+    print('Running ConTreeDP for inferring final tree...')
     cp_dict, cp_branch = consensus_tree(tree_list, args['maximum_degree'])
     print('Saving result tree...')
+    if not os.path.exists(args['output_directory']):
+        os.mkdir(args['output_directory'])
     w_infer = generate_png_simu(list(cp_dict.items()), edge_branch_dict=cp_branch)
     w_infer.render(args['output_directory'] + '/inferred_tree')
-    
+    print('Program finished!')
     
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
 
