@@ -51,7 +51,7 @@ def bfs(root, tree):  #O(k)
                 q.append(child)
     return order
 
-def generate_png_simu(edge_list, edge_branch_dict):
+def generate_graph(edge_list, edge_branch_dict):
     w = Digraph(format='png')
     #w._repr_svg_(True)
     if edge_branch_dict is not None:
@@ -60,26 +60,7 @@ def generate_png_simu(edge_list, edge_branch_dict):
     else:
         for edge_idx in range(len(edge_list)):
             w.edge(' '.join(str(e) for e in edge_list[edge_idx][1]), ' '.join(str(e) for e in edge_list[edge_idx][0]), 'b'+str(edge_idx))
-    display(w)
     return w
-
-def generate_png_branch(edge_list, edge_branch_dict, filename):
-    w = Digraph()
-    #w._repr_svg_(True)
-    if edge_branch_dict is not None:
-        for edge_idx in range(len(edge_list)):
-            if edge_list[edge_idx][1] == (-1,):
-                w.edge('GL',' '.join(str(e) for e in edge_list[edge_idx][0]), str(edge_branch_dict[edge_list[edge_idx]]))
-            else:
-                w.edge(' '.join(str(e) for e in edge_list[edge_idx][1]), ' '.join(str(e) for e in edge_list[edge_idx][0]), str(edge_branch_dict[edge_list[edge_idx]]))
-    else:
-        for edge_idx in range(len(edge_list)):
-            if edge_list[edge_idx][1] == (-1,):
-                w.edge('GL',' '.join(str(e) for e in edge_list[edge_idx][0]),'b'+str(edge_idx))
-            else:
-                w.edge(' '.join(str(e) for e in edge_list[edge_idx][1]), ' '.join(str(e) for e in edge_list[edge_idx][0]), '')
-    w.view()
-    w.render(filename=filename)
 
 
 def cp_branch2pc_table(cp_branch):
