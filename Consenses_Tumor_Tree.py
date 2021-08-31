@@ -24,6 +24,7 @@ import copy
 from ete3 import Tree
 import re
 import random
+import pickle
 from utils import *
 
 
@@ -127,9 +128,7 @@ def dynamic_programming(total_set, combined_partitions_count, d=3, allow_steiner
                 subset2_length = subset_length_list[j_idx]
                 for subset1 in subset_pool_dict[subset1_length]:
                     for subset2 in subset_pool_dict[subset2_length]:
-                        #print(subset2)
                         if len(set(subset1).intersection(set(subset2))) == 0:
-                            #print(subset1, subset2)
                             if allow_steiner == 2 and j_idx != 0:
                                 set_list = exist_set(set_pool_list, set(subset1).union(set(subset2)),allow_steiner)
                             elif allow_steiner != 2:
@@ -152,10 +151,8 @@ def dynamic_programming(total_set, combined_partitions_count, d=3, allow_steiner
                     for subset1 in subset_pool_dict[subset1_length]:
                         for subset2 in subset_pool_dict[subset2_length]:
                             for subset3 in subset_pool_dict[subset3_length]:
-                            #print(subset2)
                                 subset_list = [subset1, subset2, subset3]
                                 if len(set.union(*map(set, subset_list))) == sum(len(s) for s in subset_list):
-                                    #print(subset1, subset2, subset3)
                                     if allow_steiner == 2 and j_idx != 0 and k_idx != 0:
                                         set_list = exist_set(set_pool_list, set.union(*map(set, subset_list)), allow_steiner)
                                     elif allow_steiner != 2:
@@ -182,7 +179,6 @@ def dynamic_programming(total_set, combined_partitions_count, d=3, allow_steiner
                                     for subset4 in subset_pool_dict[subset4_length]:
                                         subset_list = [subset1, subset2, subset3, subset4]
                                         if len(set.union(*map(set, subset_list))) == sum(len(s) for s in subset_list):
-                                            #print(subset1, subset2, subset3, subset4)
                                             if allow_steiner == 2 and j_idx != 0 and k_idx != 0 and g_idx != 0:
                                                 set_list = exist_set(set_pool_list, set.union(*map(set, subset_list)),allow_steiner)
                                             elif allow_steiner != 2:
@@ -224,7 +220,6 @@ def count_emptyset(tp):
 
 def get_head_subtree(structure, combined_directed_partitions, subset, cp_dict, cp_branch, steiner=1):
     head = set(subset).difference(set(reduce(lambda a, b: list(a)+list(b), structure[subset])))
-    #print(subset, structure[subset], head)
     head = tuple(sorted(list(head)))
     for p in structure[subset]:
         if p in structure.keys():
@@ -246,15 +241,11 @@ def consensus_tree(tree_list, d, allow_steiner=0):
     for tree_idx in range(len(tree_list)):  #O(n)
         tree = tree_list[tree_idx]
         dp, ns, total_set = generate_directed_partitions(tree) #O(k^2)
-        #print(dp)
         if dp is not None:
             directed_partitions_list += dp
             nodes_set += ns
-    #print(directed_partitions_list)
     combined_directed_partitions = combine_directed_partitions(directed_partitions_list) # O(nk)
-    #print(combined_directed_partitions)
     opt, structure = dynamic_programming(total_set, combined_directed_partitions, d, allow_steiner) #O(3^k) for traversing all possible subsets, O(n^2k^2) if only use the occured subsets
-    #print(opt,structure)
     _, cp_dict, cp_branch,_ = get_head_subtree(structure, combined_directed_partitions, tuple(sorted(list(total_set))), {}, {})  #O(k)
     return cp_dict, cp_branch
 
