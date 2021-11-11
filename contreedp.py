@@ -254,7 +254,7 @@ def consensus_tree(tree_list, d, allow_steiner=0):
 def get_args(argv):
     parser = argparse.ArgumentParser(prog='contreedp.py',)
     parser.add_argument('-t', '--tree_list', type=str, dest='tree_list')
-    parser.add_argument('-d', '--maximum_degree', type=int, dest='maximum_degree')
+    parser.add_argument('-d', '--maximum_degree', type=int, dest='maximum_degree', default=3)
     parser.add_argument('-o', '--output_directory', type=str, dest='output_directory')
     return vars(parser.parse_args(argv))
 
@@ -269,7 +269,7 @@ def main(argv):
     print('Saving result tree...')
     if not os.path.exists(args['output_directory']):
         os.mkdir(args['output_directory'])
-    w_infer = generate_png_simu(list(cp_dict.items()), edge_branch_dict=cp_branch)
+    w_infer = generate_graph(list(cp_dict.items()), edge_branch_dict=cp_branch)
     w_infer.render(args['output_directory'] + '/inferred_tree')
     print('Program finished!')
     
