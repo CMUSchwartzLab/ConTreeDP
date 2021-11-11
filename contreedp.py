@@ -269,7 +269,7 @@ def main(argv):
     print('Saving result tree...')
     if not os.path.exists(args['output_directory']):
         os.mkdir(args['output_directory'])
-    w_infer = generate_png_simu(list(cp_dict.items()), edge_branch_dict=cp_branch)
+    w_infer = generate_graph(list(cp_dict.items()), edge_branch_dict=cp_branch)
     w_infer.render(args['output_directory'] + '/inferred_tree')
     print('Program finished!')
     
