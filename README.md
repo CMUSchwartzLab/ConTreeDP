@@ -1,5 +1,5 @@
 # ConTreeDP
-ConTreeDP is a consensus method of tumor trees based on maximum directed partition support problem using dynamic programming method. The codes are based on the method introduced in X. Fu and R. Schwartz. ConTreeDP: A consensus method of tumor trees based on maximum directed partition support problem. 2021 (in preparation). https://www.biorxiv.org/content/10.1101/2021.10.13.463978v1
+ConTreeDP is a consensus method of tumor trees based on maximum directed partition support problem using dynamic programming method. The method is introduced in X. Fu and R. Schwartz, "ConTreeDP: A consensus method of tumor trees based on maximum directed partition support problem," 2021 IEEE International Conference on Bioinformatics and Biomedicine (BIBM), 2021, pp. 125-130, doi: 10.1109/BIBM52615.2021.9669279.
 
 ## Prerequisite
 Python3 is required to run the software. Packages including Numpy, Graphviz, Scipy, ete3, should be installed. Matplotlib should also be installed in order to show resulting figures.
